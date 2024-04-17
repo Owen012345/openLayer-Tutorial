@@ -25,9 +25,10 @@ class CustomMap {
     });
   }
 
-  addMarker(center = [126.9783882, 37.5666103], iconSrc) {
+  addMarker(position, iconSrc) {
+    console.log(position)
     const markerSource = new VectorSource();
-    const markerGeometry = new Point(fromLonLat(center));
+    const markerGeometry = new Point(position);
     const markerStyle = new Style({
       image: new Icon({
         anchor: [0.5, 1],
