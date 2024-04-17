@@ -1,6 +1,6 @@
 <template>
     <div class="app__header">
-        <h1>Vue.js & OpenLayers</h1>
+        <h1>Vue.js OpenLayers</h1>
         <ul>
             <li v-for="item in menu" :key="item.path">
                 <router-link :to="item.path">{{ item.name }}</router-link>

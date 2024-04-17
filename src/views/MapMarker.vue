@@ -1,7 +1,7 @@
 <template>
   <div class="map__wrapper">
         <p>OSM MAP PAGE</p>
-        1. 지도 렌더 테스트
+        2. 지도 마커 테스트
         <div class="map" ref="map"></div>
     </div>
 </template>
@@ -16,6 +16,7 @@ export default {
   },  
   mounted() {
     this.map = new CustomMap(this.$refs.map);
+    this.map.addMarker([126.9783882, 37.5666103], 'https://openlayers.org/en/latest/examples/data/icon.png')
   }
 };
 </script>
