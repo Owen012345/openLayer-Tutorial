@@ -1,7 +1,12 @@
 <template>
   <div class="map__wrapper">
         <p>OSM MAP PAGE</p>
-        1. 지도 렌더 테스트
+        <div style="display: flex; gap: 20px">
+          <p>1. 지도 렌더 테스트</p>
+          <select v-model="mapSelected" @change="mapTypeHandler">
+            <option v-for="(map, i) in mapType" :key="i" :value="map.value" >{{ map.name }}</option>
+          </select>
+        </div>
         <div class="map" ref="map"></div>
     </div>
 </template>
@@ -12,8 +17,19 @@ export default {
   name: 'RenderMap',
   data() {
     return {
+      map : null,
+      mapSelected: 'osm',
+      mapType : [
+        {name: 'OSM', value: 'osm'},
+        {name: 'Stamen', value: 'stamen'},
+      ]
     };
   },  
+  methods: {
+    mapTypeHandler() {
+      this.map.changeMapType(this.mapSelected);
+    }
+  },
   mounted() {
     this.map = new CustomMap(this.$refs.map);
   }
