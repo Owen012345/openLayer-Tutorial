@@ -3,9 +3,10 @@
         <p>OSM MAP PAGE</p>
         <div style="display: flex; gap: 20px">
           <p>1. 지도 렌더 테스트</p>
-          <select v-model="mapSelected" @change="mapTypeHandler">
+          <select style="width: 100px" v-model="mapSelected" @change="mapTypeHandler">
             <option v-for="(map, i) in mapType" :key="i" :value="map.value" >{{ map.name }}</option>
           </select>
+          <p>{{getTypeOfSource}} Type</p>
         </div>
         <div class="map" ref="map"></div>
     </div>
@@ -24,7 +25,12 @@ export default {
         {name: 'Stamen', value: 'stamen'},
       ]
     };
-  },  
+  },
+  computed: {
+    getTypeOfSource() {
+      return ['osm', 'stamen'].indexOf(this.mapSelected) > -1 ? 'Tile' : 'Vector';
+    }
+  },
   methods: {
     mapTypeHandler() {
       this.map.changeMapType(this.mapSelected);

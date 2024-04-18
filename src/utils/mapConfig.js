@@ -56,13 +56,12 @@ class CustomMap {
         this.map.addLayer(layer[1]);
       }
     }
-    else this.map.getLayers().setAt(0, layer[0]); /// mapType이 변경될떄 마다 기본 layer를 변경
+    else this.map.getLayers().setAt(0, layer); /// mapType이 변경될떄 마다 기본 layer를 변경
   }
 
   addMarker(position, iconSrc) {
-    console.log(position)
     const markerSource = new VectorSource();
-    const markerGeometry = new Point(position);
+    const markerGeometry = new Point(position); // position 은 latitue, longitude
     const markerStyle = new Style({
       image: new Icon({
         anchor: [0.5, 1],
