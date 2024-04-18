@@ -23,6 +23,7 @@ export default {
       mapType : [
         {name: 'OSM', value: 'osm'},
         {name: 'Stamen', value: 'stamen'},
+        {name: 'Vector Test', value: 'vector'}
       ]
     };
   },
@@ -33,7 +34,12 @@ export default {
   },
   methods: {
     mapTypeHandler() {
-      this.map.changeMapType(this.mapSelected);
+      if(this.mapSelected === 'vector') {
+        this.map.showGeoJSON();
+      }
+      else {
+        this.map.changeMapType(this.mapSelected, [126.9783882, 37.5666103], 10);
+      }
     }
   },
   mounted() {
