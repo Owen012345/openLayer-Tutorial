@@ -67,14 +67,16 @@ const view = new View({
 map.setView(view)
 ```
 
+> 참고로 서울의 좌표는 projection: 'EPSG:4326' 기준으로 [126.98, 37.54]입니다.
+
 ### Source (소스)
 
 Source는 map에 데이터를 어떻게 그리고 어디서 가져올지 정의합니다.
 가령, 지도 데이터를 로드하는 방법은 Source에서 정의합니다.
 
-*몇 가지 주요 지도 데이터 로드 방식*
-*TileSource*는 지도를 여러 개의 작은 타일로 나누어 로드합니다.
-*ImageSource*는 지도의 특정 영역을 하나의 큰 이미지로 로드합니다.
+- 몇 가지 주요 지도 데이터 로드 방식
+  - *TileSource*는 지도를 여러 개의 작은 타일로 나누어 로드합니다.
+  - *ImageSource*는 지도의 특정 영역을 하나의 큰 이미지로 로드합니다.
 
 이 외에도 굉장히 다양한 Source(소스)들이 존재하며, Source의 타입과 설정에 따라 지도의 로딩속도, 표현 방식, 상호작용성이 결정됩니다.
 
@@ -164,6 +166,84 @@ const map = new Map({           // 3. 맵 객체 생성 및 설정, Map 객체�
 **layer** 는 데이터를 제공하고 로드 방식을 지정합니다.
 **view** 는 사용자가 그 데이터를 어떻게 보게 될 지를 정의합니다.
 **map** 객체는 최종적으로 이 모든 정보를 담아 사용자 브라우저에 지도를 표시합니다.
+
+## 각 개념에 대한 자세한 추가 설명
+
+### Layer - VectorLayer
+
+벡터 레이어(Vector Layer)는 지도 위에 점, 선, 면 등을 시각적으로 표현하는 역할입니다.
+데이터를 추가, 삭제, 수정 등의 동적인 처리에 적합니다.
+
+아래는 map 객체에 타일 레이어와 벡터 레이어를 추가해서 지도 상의 점이 나타나게 하는 예시코드입니다.
+
+```javascript
+import 'ol/ol.css';
+import Map from 'ol/Map';
+import View from 'ol/View';
+import TileLayer from 'ol/layer/Tile';
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
+import OSM from 'ol/source/OSM';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import {Circle, Fill, Stroke, Style} from 'ol/style';
+
+export default {
+  data() {
+    return {
+      map: null
+    };
+  },
+  mounted(){
+    // 타일 레이어 생성
+    const tileLayer = new TileLayer({
+      source: new OSM() // 타일 소스 생성
+    }); 
+
+    // 벡터 레이어 생성
+    const vectorLayer = new VectorLayer({
+      source: new VectorSource
+      ({
+        features: [
+          new Feature({
+            geometry: new Point([127.5, 37.65])
+          })
+        ]
+      }),
+      style: new Style({
+        image: new Circle({
+          radius: 5,
+          fill: new Fill({color: 'red'}),
+          stroke: new Stroke({
+            color: 'white',
+            width: 2
+          })
+        })
+      })
+    });
+
+    // 맵 객체 생성
+    this.map = new Map({
+      target: 'map',
+      layers: [tileLayer, vectorLayer],
+      view: new View({
+        center: [127.5, 37.65],
+        zoom: 10,
+        projection: 'EPSG:4326'
+      })
+    });
+  }
+}
+```
+
+위 예제에서는 중앙에 점 하나가 있는 간단한 벡터 레이어를 생성하고 있습니다.
+
+혹시 벡터 레이어의 벡터 데이터들(점, 선, 면 등등)이 예상과 다르게 나타난다면 아래 두 원인일 수 있습니다.
+
+1. 지도 좌표 시스템의 설정
+2. 좌표 값의 잘못된 설정
+
+주로 1의 문제가 나타납니다. 이를 해결하려면 **지도의 view의 projection과 벡터 데이터 좌표의 projection을 일치**시켜야 합니다.
 
 ## 현재 OPENLAYER-TUTORIAL 코드 해설(Eric 읽기 전용)
 

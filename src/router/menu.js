@@ -11,6 +11,11 @@ const menu = [{
             path: 'map_marker',
             name: 'mapMarker', 
             component: () => import('@/views/MapMarker.vue'),
+        },
+        {
+            path: 'map_Eric',
+            name: 'mapEric',
+            component: () => import('@/views/MapEric.vue'),
         }
     ]
 }]
