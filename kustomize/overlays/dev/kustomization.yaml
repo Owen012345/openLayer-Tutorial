@@ -1,0 +1,14 @@
+bases:
+  - ../../base
+
+namespace: vue
+
+namePrefix: dev-
+
+commonLabels:
+  env: dev
+
+patches:
+- path: patchDeployment.yml
+- path: patchIngress.yml
+- path: patchService.yml

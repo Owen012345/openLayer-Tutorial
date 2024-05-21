@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vue-openlayers
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: vue-openlayers
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
