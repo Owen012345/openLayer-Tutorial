@@ -4,4 +4,4 @@ resources:
 - service.yml
 
 commonLabels:
-  app: vue-openlayers
+  app: openlayer-tutorial
